@@ -5,9 +5,11 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class UserDto {
 
@@ -22,6 +24,7 @@ public class UserDto {
                     .email(email)
                     .password(password)
                     .nickname(nickname)
+                    .enabled(false)
                     .build();
 
             return entity;
@@ -30,11 +33,26 @@ public class UserDto {
 
     @Builder
     @Getter
-    public static class AuthUser implements UserDetails {
+    public static class AuthUser implements UserDetails, OAuth2User {
         private Integer idx;
         private String email;
         private String password;
         private String nickname;
+        private Boolean enabled;
+        private Map<String, Object> attributes;
+
+        @Override
+        public String getName() {
+            return (nickname != null && !nickname.isBlank()) ? nickname : email;
+        }
+
+        @Override
+        public boolean isEnabled() {return enabled;}
+
+        @Override
+        public Map<String, Object> getAttributes() {
+            return attributes;
+        }
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -57,6 +75,7 @@ public class UserDto {
                     .email(entity.getEmail())
                     .password(entity.getPassword())
                     .nickname(entity.getNickname())
+                    .enabled(entity.getEnabled())
                     .build();
 
             return dto;

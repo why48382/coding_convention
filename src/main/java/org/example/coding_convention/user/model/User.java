@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(
@@ -33,7 +34,7 @@ public class User {
     @Column(nullable = false, length = 200)
     private String nickname;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String password;
 
     @Column(name = "profile_img", length = 500)
@@ -68,6 +69,13 @@ public class User {
 
     @Column(length = 100)
     private String browser;
+
+    private Boolean enabled;
+
+    @OneToMany(mappedBy = "user")
+    List<EmailVerify> emailVerifyList;
+
+    public void userVerify() {this.enabled=true;}
 
     // ===== 내부 Enum =====
     public enum Status {

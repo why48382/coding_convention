@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.example.coding_convention.config.filter.JwtAuthFilter;
 import org.example.coding_convention.config.filter.LoginFilter;
+import org.example.coding_convention.config.oauth.OAuth2AuthenticationSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,13 +27,15 @@ import java.util.List;
 @EnableJpaAuditing
 public class SecurityConfig {
     private final AuthenticationConfiguration configuration;
+    private final OAuth2UserService oAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:5176"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5174"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
 
@@ -47,9 +51,18 @@ public class SecurityConfig {
     //              라이브러리를 가져와서 라이브러리의 객체를 등록할 때 사용
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.oauth2Login(config -> {
+                    config.userInfoEndpoint(
+                            endpoint ->
+                                    endpoint.userService(oAuth2UserService)
+                    );
+                    config.successHandler(oAuth2AuthenticationSuccessHandler);
+                }
+        );
+
         http.authorizeHttpRequests(
                 (auth) -> auth
-                        .requestMatchers("/login", "/user/signup").permitAll()
+                        .requestMatchers("/login", "/user/signup","/oauth2/**","/login/oauth2/**").permitAll()
                         .requestMatchers("/test/*").hasRole("USER") // 특정 권한(USER)이 있는 사용자만 허용
 //                        .requestMatchers("/test/*").authenticated() // 로그인한 모든 사용자만 허용
 //                        .anyRequest().authenticated()
