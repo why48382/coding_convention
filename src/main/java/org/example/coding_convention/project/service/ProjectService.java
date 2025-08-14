@@ -52,7 +52,6 @@ public class ProjectService {
         if (result.isPresent()) {
             Project project = result.get();
             return ProjectDto.ProejctRead.from(project);
-            // TODO 맴버의 이름 가져오게 만들기
         }
         return null;
     }

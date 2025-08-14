@@ -3,11 +3,14 @@ package org.example.coding_convention.project.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.coding_convention.chat.model.Chats;
+import org.example.coding_convention.chat.model.ChatsDto;
 import org.example.coding_convention.file.model.Files;
 import org.example.coding_convention.file.model.FilesDto;
 import org.example.coding_convention.project_member.model.ProjectMember;
 import org.example.coding_convention.project_member.model.ProjectMemberDto;
 import org.example.coding_convention.user.model.User;
+import org.example.coding_convention.user.model.UserDto;
 
 import java.util.List;
 
@@ -40,13 +43,14 @@ public class ProjectDto {
         private Integer idx;
         private String projectName;
         private String language;
-         private List<FilesDto.FilesList> projectFile;
-         private List<ProjectMemberDto.ProjectMemberList> projectMember;
-        // private Chat chat;
+        private List<FilesDto.FilesList> projectFile;
+        private List<ProjectMemberDto.ProjectMemberList> projectMember;
+        private List<ChatsDto.ChatList> projectChat;
 
         public static ProejctRead from(Project entity) {
             List<Files> filesList = entity.getFileList();
             List<ProjectMember> projectMemberList = entity.getProjectMemberList();
+            List<Chats> projectChatList = entity.getChatsList();
 
             return ProejctRead.builder()
                     .idx(entity.getIdx())
@@ -54,6 +58,7 @@ public class ProjectDto {
                     .language(entity.getLanguage().toString())
                     .projectMember(projectMemberList.stream().map(ProjectMemberDto.ProjectMemberList::from).toList())
                     .projectFile(filesList.stream().map(FilesDto.FilesList::from).toList())
+                    .projectChat(projectChatList.stream().map(ChatsDto.ChatList::from).toList())
                     .build();
         }
     }
@@ -65,7 +70,7 @@ public class ProjectDto {
         private String projectName;
         private String description;
         private String language;
-        // private String creator;
+        private String creator;
 
         // 유저의 아이디를 기준으로 가져와야 함
         // SELECT * FROM project WHERE user_idx = ?
@@ -76,6 +81,7 @@ public class ProjectDto {
                     .projectName(entity.getProjectName())
                     .description(entity.getDescription())
                     .language(entity.getLanguage().toString())
+                    .creator(entity.getUser().getNickname())
                     .build();
         }
     }

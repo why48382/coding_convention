@@ -51,10 +51,12 @@ public class ProjectMemberDto {
     public static class ProjectMemberList {
         private Integer userId;
         private String status;
+        private String username;
 
         public static ProjectMemberList from(ProjectMember entity) {
             return ProjectMemberDto.ProjectMemberList.builder()
                     .userId(entity.getUser().getIdx())
+                    .username(entity.getUser().getNickname())
                     .status(entity.getStatus().toString())
                     .build();
         }
