@@ -1,5 +1,6 @@
 package org.example.coding_convention.file.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.example.coding_convention.common.BaseResponse;
 import org.example.coding_convention.file.model.FilesDto;
@@ -13,6 +14,10 @@ public class FileController {
 
     private final FileService fileService;
 
+    @Operation(
+            summary = "파일 저장 기능",
+            description = "파일 저장시 실행되는 기능"
+    )
     @PostMapping("/register")
     public BaseResponse register(@RequestBody FilesDto.Register dto) {
         fileService.save(dto);
@@ -20,6 +25,10 @@ public class FileController {
         return BaseResponse.success("파일 저장완료");
     }
 
+    @Operation(
+            summary = "파일 상세조회 기능",
+            description = "특정 파일에 대한 path(name)를 제공"
+    )
     @GetMapping("/read")
     public BaseResponse read(Integer idx) {
         FilesDto.FilesRes result = fileService.read(idx);
