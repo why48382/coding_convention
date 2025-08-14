@@ -26,4 +26,5 @@ public class UserController {
 
         return BaseResponse.success("이메일 인증완료");
     }
+
 }
