@@ -87,12 +87,12 @@ CREATE TABLE email_verify (
 -- ===============================
 -- chat 테이블 생성
 -- ===============================
-CREATE TABLE chat (
+CREATE TABLE chats (
                       idx INT AUTO_INCREMENT PRIMARY KEY,
                       project_id INT,
                       user_id INT,
                       message TEXT,
-                      created_at DATETIME NOT NULL,
+                      sent_at DATETIME NOT NULL,
                       FOREIGN KEY (project_id) REFERENCES project(idx) ON DELETE CASCADE,
                       FOREIGN KEY (user_id) REFERENCES users(idx) ON DELETE CASCADE
 );
@@ -111,9 +111,9 @@ VALUES
 -- project (총 3개 프로젝트 생성)
 INSERT INTO project (project_name, url, description, language, creator_id)
 VALUES
-    ('프로젝트 A - 웹사이트', 'http://project.a.com', '반응형 웹사이트 제작', 'JavaScript', 1),
-    ('프로젝트 B - AI 챗봇', 'http://project.b.com', '자연어 처리 기반 챗봇 개발', 'Python', 2),
-    ('프로젝트 C - 모바일 앱', 'http://project.c.com', '안드로이드/iOS 앱 개발', 'Java', 1);
+    ('프로젝트 A - 웹사이트', 'http://project.a.com', '반응형 웹사이트 제작', 'JAVASCRIPT', 1),
+    ('프로젝트 B - AI 챗봇', 'http://project.b.com', '자연어 처리 기반 챗봇 개발', 'PYTHON', 2),
+    ('프로젝트 C - 모바일 앱', 'http://project.c.com', '안드로이드/iOS 앱 개발', 'JAVA', 1);
 
 -- files (각 프로젝트마다 여러 개의 파일 추가)
 INSERT INTO files (file_name, created_at, type, save_time_at, project_idx)
@@ -140,16 +140,16 @@ VALUES
 INSERT INTO project_member (status, user_id, project_id)
 VALUES
     ('ADMIN', 1, 1), -- 관리자가 프로젝트 A 멤버 (생성자)
-    ('MEMBER', 2, 1), -- 유저1이 프로젝트 A 멤버
+    ('USER', 2, 1), -- 유저1이 프로젝트 A 멤버
 
     ('ADMIN', 2, 2), -- 유저1이 프로젝트 B 멤버 (생성자)
-    ('MEMBER', 1, 2), -- 관리자가 프로젝트 B 멤버
+    ('USER', 1, 2), -- 관리자가 프로젝트 B 멤버
 
     ('ADMIN', 1, 3), -- 관리자가 프로젝트 C 멤버 (생성자)
-    ('MEMBER', 2, 3); -- 유저1이 프로젝트 C 멤버
+    ('USER', 2, 3); -- 유저1이 프로젝트 C 멤버
 
 -- chat (각 프로젝트에 여러 개의 메시지 추가)
-INSERT INTO chat (project_id, user_id, message, created_at)
+INSERT INTO chats (project_id, user_id, message, sent_at)
 VALUES
     -- 프로젝트 A 채팅
     (1, 1, '웹사이트 랜딩 페이지 디자인 초안을 공유했습니다.', NOW()),
