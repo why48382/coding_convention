@@ -2,6 +2,7 @@ package org.example.coding_convention.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.coding_convention.chat.model.Chats;
 import org.example.coding_convention.project.model.Project;
 import org.example.coding_convention.project_member.model.ProjectMember;
 import org.springframework.data.annotation.CreatedDate;
@@ -83,6 +84,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<EmailVerify> emailVerifyList;
 
+    @OneToMany(mappedBy = "user")
+    private List<Chats> chatsList;
+
     public void userVerify() {this.enabled=true;}
 
     // ===== 내부 Enum =====
@@ -118,4 +122,5 @@ public class User {
         if (this.status == null) this.status = Status.ACTIVE;
         if (this.platform == null) this.platform = Platform.LOCAL;
     }
+
 }

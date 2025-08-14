@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.coding_convention.chat.model.Chats;
 import org.example.coding_convention.file.model.Files;
 import org.example.coding_convention.project_member.model.ProjectMember;
 import org.example.coding_convention.user.model.User;
@@ -44,4 +45,7 @@ public class Project {
 
     @OneToMany(mappedBy = "project")
     private List<ProjectMember> projectMemberList;
+
+    @OneToMany(mappedBy = "project")
+    private List<Chats> chatsList;
 }
