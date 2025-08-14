@@ -22,6 +22,7 @@ public class FilesDto {
         }
     }
 
+    @Getter
     @Builder
     public static class FilesRes {
         private String name;
