@@ -2,6 +2,8 @@ package org.example.coding_convention.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.coding_convention.project.model.Project;
+import org.example.coding_convention.project_member.model.ProjectMember;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -71,6 +73,12 @@ public class User {
     private String browser;
 
     private Boolean enabled;
+
+    @OneToMany(mappedBy = "user")
+    private List<Project> projectList;
+
+    @OneToMany(mappedBy = "user")
+    private List<ProjectMember> projectMemberList;
 
     @OneToMany(mappedBy = "user")
     List<EmailVerify> emailVerifyList;

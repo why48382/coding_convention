@@ -3,6 +3,8 @@ package org.example.coding_convention.project.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.coding_convention.project_member.model.ProjectMember;
+import org.example.coding_convention.user.model.User;
 
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class ProjectDto {
         private String description;
         private String url;
         private String language;
-
+        private Integer userId;
 
         public Project toEntity(String url) {
             Project.Language dtoLanguage = Project.projectLanguage(language);
@@ -27,6 +29,7 @@ public class ProjectDto {
         }
     }
 
+
     @Getter
     @Builder
     public static class ProejctRead {
@@ -34,7 +37,7 @@ public class ProjectDto {
         private String projectName;
         private String language;
         // private ProjectFile projectFile;
-        // private ProjectMember projectMember;
+         private List<ProjectMember> projectMember;
         // private Chat chat;
 
         public static ProejctRead from(Project entity) {
@@ -42,6 +45,7 @@ public class ProjectDto {
                     .idx(entity.getIdx())
                     .projectName(entity.getProjectName())
                     .language(entity.getLanguage().toString())
+                    .projectMember(entity.getProjectMemberList())
                     .build();
         }
     }

@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.coding_convention.project_member.model.ProjectMember;
+import org.example.coding_convention.user.model.User;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,4 +34,13 @@ public class Project {
         return Language.valueOf(language.toUpperCase());
     }
     // ("creator_id")
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User user;
+
+    @OneToMany(mappedBy = "project")
+    private List<File> fileList;
+
+    @OneToMany(mappedBy = "project")
+    private List<ProjectMember> projectMemberList;
 }
