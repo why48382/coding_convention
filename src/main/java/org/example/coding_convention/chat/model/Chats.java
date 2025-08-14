@@ -21,7 +21,7 @@ import java.util.Date;
 public class Chats {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer idx;
     private String message;
 
     @CreatedDate

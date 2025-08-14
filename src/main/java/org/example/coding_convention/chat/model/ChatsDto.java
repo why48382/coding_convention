@@ -18,7 +18,7 @@ public class ChatsDto {
 
         public static ChatsDto.ChatList from(Chats chatsEntity) {
             return ChatList.builder()
-                    .idx(chatsEntity.getId())
+                    .idx(chatsEntity.getIdx())
                     .username(chatsEntity.getUser().getNickname())
                     .message(chatsEntity.getMessage())
                     .build();

@@ -5,6 +5,7 @@ import org.example.coding_convention.common.BaseResponse;
 import org.example.coding_convention.file.model.FilesDto;
 import org.example.coding_convention.file.service.FileService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +20,11 @@ public class FileController {
 
         return BaseResponse.success("파일 저장완료");
     }
+
+//    @PostMapping("/upload")
+//    public BaseResponse upload() {
+//
+//    }
 
     @GetMapping("/read")
     public BaseResponse read(Integer idx) {
