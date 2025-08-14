@@ -25,12 +25,10 @@ public class FilesDto {
     @Builder
     public static class FilesRes {
         private String name;
-        private String path;
 
         public static FilesDto.FilesRes from(Files entity) {
             FilesRes dto = FilesRes.builder()
                     .name(entity.getName())
-                    .path(entity.getPath())
                     .build();
 
             return dto;

@@ -24,9 +24,6 @@ public class Files {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
-    @Column(name = "file_path", length = 500)
-    private String path;
-
     @Column(name = "file_name", length = 500)
     private String name;
 

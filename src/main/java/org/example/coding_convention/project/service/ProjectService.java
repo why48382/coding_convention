@@ -52,6 +52,7 @@ public class ProjectService {
         if (result.isPresent()) {
             Project project = result.get();
             return ProjectDto.ProejctRead.from(project);
+            // TODO 맴버의 이름 가져오게 만들기
         }
         return null;
     }
@@ -60,7 +61,7 @@ public class ProjectService {
         Integer userId = (Integer) authUser.getIdx();
         List<Project> result = projectRepository.findByUser_Idx(userId);
 //        List<ProjectMember> projectMembers = projectMemberRepository.findByUser_Idx(userId);
-        //TODO 프로젝트 맴버도 받아서 다른 이름으로 데이터 전송하게 하기
+        //TODO 프로젝트 맴버를 기준으로 내 프로잭트 조회하게 만들기
         return result.stream().map(ProjectDto.ProjectList::from).toList();
     }
 }
