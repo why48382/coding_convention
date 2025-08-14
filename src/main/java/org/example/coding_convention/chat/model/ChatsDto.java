@@ -15,12 +15,14 @@ public class ChatsDto {
         private Integer idx;
         private String username;
         private String message;
+        private String sentAt;
 
         public static ChatsDto.ChatList from(Chats chatsEntity) {
             return ChatList.builder()
                     .idx(chatsEntity.getIdx())
                     .username(chatsEntity.getUser().getNickname())
                     .message(chatsEntity.getMessage())
+                    .sentAt(chatsEntity.getSentAt().toString())
                     .build();
         }
     }
