@@ -1,9 +1,15 @@
 -- ===============================
 -- 데이터베이스 선택
 -- ===============================
-CREATE DATABASE IF NOT EXISTS project
+-- 데이터베이스가 존재하면 삭제
+DROP DATABASE IF EXISTS project;
+
+-- 데이터베이스 생성
+CREATE DATABASE project
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_general_ci;
+
+-- 데이터베이스 사용
 USE project;
 
 -- ===============================
