@@ -20,5 +20,13 @@ public class FileController {
         return BaseResponse.success("파일 저장완료");
     }
 
+    @GetMapping("/read")
+    public BaseResponse read(Integer idx) {
+        FilesDto.FilesRes result = fileService.read(idx);
+
+        return BaseResponse.success(result);
+
+    }
+
 
 }

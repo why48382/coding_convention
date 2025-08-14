@@ -9,26 +9,6 @@ import java.util.List;
 public class FilesDto {
 
     @Getter
-    public static class Register {
-
-        private Integer idx;
-        private String name;
-
-        public Files toEntity(String filetype) {
-            Project project = Project.builder()
-                    .idx(idx)
-                    .build();
-
-            Files entity = Files.builder()
-                    .project(project)
-                    .name(this.name)
-                    .type(Files.setFileType(filetype))
-                    .build();
-
-            return entity;
-        }
-    }
-    @Getter
     @Builder
     public static class FilesList {
         private Integer idx;
@@ -41,5 +21,50 @@ public class FilesDto {
                     .build();
         }
     }
+
+    @Builder
+    public static class FilesRes {
+        private String name;
+        private String path;
+
+        public static FilesDto.FilesRes from(Files entity) {
+            FilesRes dto = FilesRes.builder()
+                    .name(entity.getName())
+                    .path(entity.getPath())
+                    .build();
+
+            return dto;
+
+        }
+    }
+
+    @Getter
+    public static class Register {
+
+        private Integer idx;
+        private String name;
+
+
+        public Files toEntity(String filetype) {
+
+
+            Project project = Project.builder()
+                    .idx(idx)
+                    .build();
+
+
+            Files entity = Files.builder()
+                    .project(project)
+                    .name(this.name)
+                    .type(Files.setFileType(filetype))
+                    .build();
+
+
+            return entity;
+        }
+
+
+    }
+
 
 }
