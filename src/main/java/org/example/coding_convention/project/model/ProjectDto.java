@@ -3,7 +3,10 @@ package org.example.coding_convention.project.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.coding_convention.file.model.Files;
+import org.example.coding_convention.file.model.FilesDto;
 import org.example.coding_convention.project_member.model.ProjectMember;
+import org.example.coding_convention.project_member.model.ProjectMemberDto;
 import org.example.coding_convention.user.model.User;
 
 import java.util.List;
@@ -18,13 +21,14 @@ public class ProjectDto {
         private String language;
         private Integer userId;
 
-        public Project toEntity(String url) {
+        public Project toEntity(String url, User user) {
             Project.Language dtoLanguage = Project.projectLanguage(language);
             return Project.builder()
                     .projectName(projectName)
                     .description(description)
                     .url(url)
                     .language(dtoLanguage)
+                    .user(user)
                     .build();
         }
     }
@@ -36,16 +40,20 @@ public class ProjectDto {
         private Integer idx;
         private String projectName;
         private String language;
-        // private ProjectFile projectFile;
-         private List<ProjectMember> projectMember;
+         private List<FilesDto.FilesList> projectFile;
+         private List<ProjectMemberDto.ProjectMemberList> projectMember;
         // private Chat chat;
 
         public static ProejctRead from(Project entity) {
+            List<Files> filesList = entity.getFileList();
+            List<ProjectMember> projectMemberList = entity.getProjectMemberList();
+
             return ProejctRead.builder()
                     .idx(entity.getIdx())
                     .projectName(entity.getProjectName())
                     .language(entity.getLanguage().toString())
-                    .projectMember(entity.getProjectMemberList())
+                    .projectMember(projectMemberList.stream().map(ProjectMemberDto.ProjectMemberList::from).toList())
+                    .projectFile(filesList.stream().map(FilesDto.FilesList::from).toList())
                     .build();
         }
     }

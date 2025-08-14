@@ -5,6 +5,7 @@ import org.example.coding_convention.project.model.Project;
 import org.example.coding_convention.project.model.ProjectDto;
 import org.example.coding_convention.project.repository.ProjectRepository;
 import org.example.coding_convention.project_member.model.ProjectMember;
+import org.example.coding_convention.project_member.model.ProjectMemberDto;
 import org.example.coding_convention.project_member.repository.ProjectMemberRepository;
 import org.example.coding_convention.user.model.User;
 import org.example.coding_convention.user.model.UserDto;
@@ -21,13 +22,27 @@ public class ProjectService {
 
     public void save(ProjectDto.ProjectReq dto, UserDto.AuthUser authUser) {
         // url 생성 로직 아니면 dto 받자마자 dto에서 만들어도 될지도
+
+        User userIdx = User.builder()
+                .idx(authUser.getIdx())
+                .build();
+
         String url = "test";
-        Project project = projectRepository.save(dto.toEntity(url));
-        Integer userId = authUser.getIdx();
-        Integer projectId = project.getIdx();
+        Project project = projectRepository.save(dto.toEntity(url, userIdx));
+
+        Project projectIdx = Project.builder()
+                .idx(project.getIdx())
+                .build();
+
         String status = "ADMIN";
 
-        projectMemberRepository.save(userId, projectId, status);
+        ProjectMemberDto.ProjectMemberReq memberDto = ProjectMemberDto.ProjectMemberReq.builder()
+                .projectId(projectIdx.getIdx())
+                .userId(userIdx.getIdx())
+                .status(status)
+                .build();
+
+        projectMemberRepository.save(memberDto.toEntity());
         // 저장이 진짜 되었는지 검증하고 싶으면 엔티티 반환해주면 됨
     }
 

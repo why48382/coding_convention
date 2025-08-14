@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.coding_convention.common.BaseResponse;
 import org.example.coding_convention.file.model.FilesDto;
 import org.example.coding_convention.file.service.FileService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +13,8 @@ public class FileController {
 
     private final FileService fileService;
 
-    @GetMapping("/register")
-    public BaseResponse register(FilesDto.Register dto) {
+    @PostMapping("/register")
+    public BaseResponse register(@RequestBody FilesDto.Register dto) {
         fileService.save(dto);
 
         return BaseResponse.success("파일 저장완료");

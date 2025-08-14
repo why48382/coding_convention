@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.coding_convention.file.model.Files;
 import org.example.coding_convention.project_member.model.ProjectMember;
 import org.example.coding_convention.user.model.User;
 
@@ -39,7 +40,7 @@ public class Project {
     private User user;
 
     @OneToMany(mappedBy = "project")
-    private List<File> fileList;
+    private List<Files> fileList;
 
     @OneToMany(mappedBy = "project")
     private List<ProjectMember> projectMemberList;
